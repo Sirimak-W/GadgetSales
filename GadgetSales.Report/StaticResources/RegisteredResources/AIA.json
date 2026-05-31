@@ -1,0 +1,43 @@
+{
+  "name": "AIA",
+  "dataColors": [
+    "#D31145",
+    "#8E0C30",
+    "#F2849E",
+    "#C8A04B",
+    "#6E2436",
+    "#5B6770",
+    "#ED7373",
+    "#2B2B2B"
+  ],
+  "background": "#FFFFFF",
+  "secondaryBackground": "#F7F2F3",
+  "foreground": "#2B2B2B",
+  "tableAccent": "#D31145",
+  "good": "#44C088",
+  "neutral": "#C8A04B",
+  "bad": "#ED7373",
+  "maximum": "#8E0C30",
+  "center": "#F2849E",
+  "minimum": "#FBE0E6",
+  "null": "#5B6770",
+  "hyperlink": "#D31145",
+  "textClasses": {
+    "title": {
+      "color": "#D31145",
+      "fontFace": "Segoe UI Semibold"
+    },
+    "header": {
+      "color": "#2B2B2B",
+      "fontFace": "Segoe UI Semibold"
+    },
+    "label": {
+      "color": "#2B2B2B",
+      "fontFace": "Segoe UI"
+    },
+    "callout": {
+      "color": "#D31145",
+      "fontFace": "Segoe UI Semibold"
+    }
+  }
+}

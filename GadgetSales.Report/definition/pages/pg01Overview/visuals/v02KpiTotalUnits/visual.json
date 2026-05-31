@@ -1,0 +1,81 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "v02KpiTotalUnits",
+  "position": {
+    "x": 340,
+    "y": 20,
+    "z": 1001,
+    "height": 150,
+    "width": 300,
+    "tabOrder": 1
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "AdditionalMeasure": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Units YoY %"
+                }
+              },
+              "queryRef": "_Measures.Units YoY %",
+              "nativeQueryRef": "Units YoY %"
+            }
+          ]
+        },
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Total Units"
+                }
+              },
+              "queryRef": "_Measures.Total Units",
+              "nativeQueryRef": "Total Units"
+            }
+          ]
+        },
+        "ReferenceLabels": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Total Units PY"
+                }
+              },
+              "queryRef": "_Measures.Total Units PY",
+              "nativeQueryRef": "Total Units PY"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "referenceLabel": [
+        {
+          "properties": {}
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

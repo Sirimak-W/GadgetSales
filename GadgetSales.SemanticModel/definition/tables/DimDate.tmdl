@@ -1,0 +1,50 @@
+table DimDate
+	lineageTag: 0cd68e4e-75e8-4e2c-aba3-3a570aac1b38
+
+	column Date
+		dataType: dateTime
+		isKey
+		formatString: yyyy-mm-dd
+		lineageTag: 0856545b-baf3-4691-9237-4d2a9a855129
+		summarizeBy: none
+		sourceColumn: [Date]
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: c262ad6b-3ca4-4ee3-b001-f4a0a96ddd8c
+		summarizeBy: none
+		sourceColumn: [Year]
+
+	column MonthNo
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 1e7f5f6b-5654-4735-953c-cc30782f3347
+		summarizeBy: none
+		sourceColumn: [MonthNo]
+
+	column MonthName
+		dataType: string
+		lineageTag: 31aac9e4-081b-468e-8b17-cadf13e536ca
+		summarizeBy: none
+		sourceColumn: [MonthName]
+		sortByColumn: MonthNo
+
+	column YearMonth
+		dataType: string
+		lineageTag: adfbeed3-0ac8-4171-bbf5-7d708519af50
+		summarizeBy: none
+		sourceColumn: [YearMonth]
+
+	partition DimDate = calculated
+		mode: import
+		source =
+				ADDCOLUMNS(
+				    CALENDAR(DATE(2025, 1, 1), DATE(2026, 12, 31)),
+				    "Year", YEAR([Date]),
+				    "MonthNo", MONTH([Date]),
+				    "MonthName", FORMAT([Date], "mmm"),
+				    "YearMonth", FORMAT([Date], "yyyy-MM")
+				)
+

@@ -1,0 +1,59 @@
+table _Measures
+	lineageTag: ed9cb194-1950-455d-93c6-91968244448d
+
+	measure 'Total Sales' = SUM(Sales[SalesAmount])
+		formatString: \$#,0
+		displayFolder: Measures
+		lineageTag: 6753158f-674e-422f-9bd8-891b00bbaf25
+
+	measure 'Total Units' = SUM(Sales[Units])
+		formatString: #,0
+		displayFolder: Measures
+		lineageTag: c55ec3c6-60e9-46a0-ae3e-d3bc83269686
+
+	measure 'Total Sales PY' = CALCULATE([Total Sales], SAMEPERIODLASTYEAR(DimDate[Date]))
+		formatString: \$#,0
+		displayFolder: Measures
+		lineageTag: c9346a3e-29e1-45ca-bd24-c7202c6a38ce
+
+	measure 'Total Units PY' = CALCULATE([Total Units], SAMEPERIODLASTYEAR(DimDate[Date]))
+		formatString: #,0
+		displayFolder: Measures
+		lineageTag: bee5ebb6-5358-44e9-beec-e7931f824b92
+
+	measure 'Sales YoY' = [Total Sales] - [Total Sales PY]
+		formatString: \$#,0
+		displayFolder: Measures
+		lineageTag: 7b46f2c4-eb17-4079-8b2d-6274150ef1e1
+
+	measure 'Sales YoY %' = DIVIDE([Sales YoY], [Total Sales PY])
+		formatString: 0.0%
+		displayFolder: Measures
+		lineageTag: 5692aaf1-e53e-4061-85b2-33e5890d474b
+
+	measure 'Units YoY %' = DIVIDE([Total Units] - [Total Units PY], [Total Units PY])
+		formatString: 0.0%
+		displayFolder: Measures
+		lineageTag: 2209b957-cc7b-4648-80df-9a8496a74d73
+
+	measure 'Sales KPI Color' = IF([Sales YoY %] >= 0, "#44C088", "#ED7373")
+		formatString: #000000
+		displayFolder: Measures
+		lineageTag: 06beb733-a101-4646-b1d6-2aee3f3c7d25
+
+	measure 'Units KPI Color' = IF([Units YoY %] >= 0, "#44C088", "#ED7373")
+		formatString: #000000
+		displayFolder: Measures
+		lineageTag: 1beeec07-138c-41a8-80e4-d50e72a6077c
+
+	column Value
+		dataType: int64
+		isHidden
+		lineageTag: 1c1a76cc-83b3-4edc-a7dc-eb82eb560453
+		summarizeBy: none
+		sourceColumn: [Value]
+
+	partition _Measures = calculated
+		mode: import
+		source = {BLANK()}
+

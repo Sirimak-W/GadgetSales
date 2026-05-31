@@ -1,0 +1,80 @@
+table Sales
+	lineageTag: 1fe4e2fb-ccdc-4067-8cf2-6ae1b990995c
+
+	column Date
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 45a68288-b221-43eb-99cc-2faa88ebab84
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column ProductName
+		dataType: string
+		lineageTag: 1e9ad247-9130-448b-ba94-10d564a85f84
+		summarizeBy: none
+		sourceColumn: ProductName
+
+	column Category
+		dataType: string
+		lineageTag: 3efe2c14-ce37-4e45-904c-967a036d7984
+		summarizeBy: none
+		sourceColumn: Category
+
+	column Units
+		dataType: int64
+		formatString: #,0
+		lineageTag: 9b68d42d-6bb4-4469-a71f-749cab99334c
+		summarizeBy: sum
+		sourceColumn: Units
+
+	column UnitPrice
+		dataType: double
+		formatString: \$#,0
+		lineageTag: f619e241-d54c-40ff-a401-ff552f47fca0
+		summarizeBy: none
+		sourceColumn: UnitPrice
+
+	column SalesAmount
+		dataType: double
+		formatString: \$#,0
+		lineageTag: 877eed71-fac9-4040-8d93-f44bc1fc19a1
+		summarizeBy: sum
+		sourceColumn: SalesAmount
+
+	partition Sales = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows({
+					{#date(2025,1,1), "Phone", "Mobile", 100, 800},
+					{#date(2026,1,1), "Phone", "Mobile", 130, 800},
+					{#date(2025,2,1), "Phone", "Mobile", 120, 800},
+					{#date(2026,2,1), "Phone", "Mobile", 150, 800},
+					{#date(2025,3,1), "Phone", "Mobile", 110, 800},
+					{#date(2026,3,1), "Phone", "Mobile", 140, 800},
+					{#date(2025,1,1), "Earbuds", "Audio", 200, 120},
+					{#date(2026,1,1), "Earbuds", "Audio", 280, 120},
+					{#date(2025,2,1), "Earbuds", "Audio", 250, 120},
+					{#date(2026,2,1), "Earbuds", "Audio", 320, 120},
+					{#date(2025,3,1), "Earbuds", "Audio", 220, 120},
+					{#date(2026,3,1), "Earbuds", "Audio", 300, 120},
+					{#date(2025,1,1), "Watch", "Wearable", 80, 250},
+					{#date(2026,1,1), "Watch", "Wearable", 110, 250},
+					{#date(2025,2,1), "Watch", "Wearable", 90, 250},
+					{#date(2026,2,1), "Watch", "Wearable", 120, 250},
+					{#date(2025,3,1), "Watch", "Wearable", 85, 250},
+					{#date(2026,3,1), "Watch", "Wearable", 115, 250},
+					{#date(2025,1,1), "Charger", "Accessory", 300, 30},
+					{#date(2026,1,1), "Charger", "Accessory", 400, 30},
+					{#date(2025,2,1), "Charger", "Accessory", 350, 30},
+					{#date(2026,2,1), "Charger", "Accessory", 420, 30},
+					{#date(2025,3,1), "Charger", "Accessory", 320, 30},
+					{#date(2026,3,1), "Charger", "Accessory", 410, 30}
+				    }, {"Date", "ProductName", "Category", "Units", "UnitPrice"}),
+				    Typed = Table.TransformColumnTypes(Source, {{"Date", type date}, {"ProductName", type text}, {"Category", type text}, {"Units", Int64.Type}, {"UnitPrice", type number}}),
+				    WithSales = Table.AddColumn(Typed, "SalesAmount", each [Units] * [UnitPrice], type number)
+				in
+				    WithSales
+
